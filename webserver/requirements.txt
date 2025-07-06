@@ -1,0 +1,6 @@
+strands-agents
+strands-agents-tools
+strands-agents-builder
+flask
+watchdog
+strands-agents[ollama]

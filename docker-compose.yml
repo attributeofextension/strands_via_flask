@@ -1,0 +1,10 @@
+services:
+  webserver:
+    build: ./webserver
+    container_name: webserver
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./webserver/src:/app
+    restart: unless-stopped
+
