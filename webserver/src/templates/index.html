@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>AI Assistant</h1>
+    
+    <!-- Form with HTMX -->
+    <form class="prompt-form"
+          hx-post="/prompt"
+          hx-target="#response-div" 
+          hx-trigger="submit"
+          hx-indicator="#spinner">
+        
+        <input type="text" 
+               name="prompt" 
+               placeholder="Enter your prompt"
+               required>
+        <button type="submit">Send</button>
+    </form>
+
+    <!-- Loading indicator -->
+    <div id="spinner" class="htmx-indicator">
+        Loading...
+    </div>
+
+    <!-- Response will be inserted here -->
+    <div id="response-div"></div>
+</div>
+{% endblock %}

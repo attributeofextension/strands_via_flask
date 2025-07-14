@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from strands import Agent
 from strands.agent import NullConversationManager
 from strands.models.ollama import OllamaModel
@@ -13,19 +13,22 @@ ollama_model = OllamaModel(
 agent = Agent(model=ollama_model, conversation_manager=NullConversationManager())
 app = Flask(__name__)
 
-@app.route('/', methods=['GET'])
+@app.route('/prompt', methods=['POST'])
 def simple_prompt():
-    prompt = request.args.get('prompt')
+    prompt = request.form.get('prompt')
 
     if prompt is None:
-        return 'no prompt', 200
+        return 'no prompt', 400
 
-    print(prompt)
-    prompt_text = unquote_plus(prompt)
-    agent_response = agent(prompt_text)
+
+    agent_response = agent(prompt)
     print(agent_response)
 
-    return agent_response.message, 200
+    return render_template('ai-message.html', message=agent_response)
+
+@app.route('/', methods=['GET'])
+def index():
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000,debug=True, use_reloader=True)
